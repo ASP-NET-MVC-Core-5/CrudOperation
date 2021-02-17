@@ -1,8 +1,10 @@
 ﻿using CrudOperation.Interfaces;
+using CrudOperation.Models;
 using CrudOperation.ViewModel;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -50,8 +52,33 @@ namespace CrudOperation.Controllers
             // here we pass Student View Model
             return View(vm);
         }
-      
+
+       
+        public IActionResult CreateStudent(Student student)
+        {
+            try
+            {    // if model state property is valid then we create new student succesfully           
+                if (ModelState.IsValid)
+                {
+                    _studentRepo.AddStudent(student);
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (DataException ex)
+            {
+                ModelState.AddModelError("Create", "Unable to Create new Student: " + ex);
+            }
+
+            return View(student);
+        }
+
+
         #endregion
+
 
 
 

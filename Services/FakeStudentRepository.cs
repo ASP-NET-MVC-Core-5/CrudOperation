@@ -20,9 +20,9 @@ namespace CrudOperation.Services
             Students.Add(4, new Student(4, "nilma", "ni@gmail.com", "nilma.jpg", Profession.Accounting));
 
         }
-        public void AddStudent(Student student)
+        public void AddStudent(Student stu)
         {
-            var stu = AutoIncrementId(student);
+            var student = AutoIncrementId(stu);
             Students.Add(student.Id, student);
         }
 
@@ -70,20 +70,15 @@ namespace CrudOperation.Services
 
         public Student AutoIncrementId(Student student)
         {
-            List<int> emp = new List<int>();
-            foreach (var stu in Students.Values)
+            if(Students.Values.Count > 0)
             {
-                emp.Add(stu.Id);
-            }
-            if(emp.Count != 0)
-            {
-                int inc = emp.Max() + 1;
-                student.Id = inc;
+                int maxId = Students.Values.Max(t => t.Id) + 1;
+                student.Id = maxId;
             }
             else
             {
                 student.Id = 1;
-            }
+            }           
 
            return student;
         }   
