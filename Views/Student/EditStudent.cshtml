@@ -1,9 +1,12 @@
-﻿@model Student 
+﻿@model Student
 
 <h1>Create Student New Here </h1>
 
 <div>
-    <form method="post" asp-action="CreateStudent">       
+    <form method="post" asp-action="EditStudent">
+        <div class="form-group">
+            <input asp-for="@Model.Id" class="form-control" hidden />
+          </div>
         <div class="form-group">
             <label asp-for="@Model.Name">Name</label>
             <input asp-for="@Model.Name" class="form-control" />
@@ -17,21 +20,22 @@
         <div class="form-group">
             <label asp-for="@Model.Profession">Profession</label>
             <select asp-for="@Model.Profession" class="form-control" asp-items="Html.GetEnumSelectList<Profession>()">
+                <option value="@Model.Profession" selected="@Model.Profession">Choose a Profession</option>
             </select>
             <span asp-validation-for="@Model.Profession" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label asp-for="@Model.Image">Image</label>
             <select asp-for="@Model.Image" class="form-control">
-                <option  value="alex.jpg">Alex</option>
+                <option selected="@Model.Image" value="alex.jpg">Alex</option>
                 <option value="john.jpg">John</option>
                 <option value="malina.jpg">Malina</option>
                 <option selected value="nilma.jpg">Nilma</option>
             </select>
-            <span asp-validation-for="@Model.Image"  class="text-danger"></span>
+            <span asp-validation-for="@Model.Image" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <input type="submit" value="Create" class="btn btn-primary" />
+            <input type="submit" value="Edit" class="btn btn-primary" />
         </div>
 
     </form>

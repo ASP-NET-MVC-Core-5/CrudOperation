@@ -53,7 +53,14 @@ namespace CrudOperation.Controllers
             return View(vm);
         }
 
-       
+        // when we click button on "Create Student" ,
+        // we call this method for display bydefault page CreateStudent  
+        public IActionResult IndexCreate()
+        {
+            return View(nameof(CreateStudent));
+        }
+
+        // This method is called when we send Post request with some infomration
         public IActionResult CreateStudent(Student student)
         {
             try
@@ -61,27 +68,75 @@ namespace CrudOperation.Controllers
                 if (ModelState.IsValid)
                 {
                     _studentRepo.AddStudent(student);
-                    return RedirectToAction("Index");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
                     return View();
                 }
             }
-            catch (DataException ex)
+            catch (Exception ex)
+            {
+                ModelState.AddModelError("Create", "Unable to Create new Student: " + ex);
+            }
+
+            return View(student);
+        }   
+
+        // This method also send Post request for editing information
+        public IActionResult EditStudent(Student student)
+        {
+            try
+            {    // if model state property is valid then we create new student succesfully           
+                if (ModelState.IsValid)
+                {
+                    _studentRepo.UpdateStudent(student);
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    return View();
+                }
+            }
+            catch (Exception ex)
             {
                 ModelState.AddModelError("Create", "Unable to Create new Student: " + ex);
             }
 
             return View(student);
         }
+        // when we click button edit , first time the page appears is EditStudent
+        public IActionResult IndexEdit(int Id)
+        {
+            Student student = null;
+            if(Id != 0)
+            {
+                student = _studentRepo.GetStudentById(Id);
+            }
+            else
+            {
+                return NotFound();
+            }
+           
+            return View(nameof(EditStudent),student);
+        }
 
+        // Delete Method 
+
+        public IActionResult DeleteStudent(int Id)
+        {
+            if(Id != 0)
+            {
+                 _studentRepo.DeleteStudent(Id);
+            }
+            else
+            {
+                return NotFound();
+            }
+            return View();
+        }
 
         #endregion
-
-
-
-
 
     }
 }

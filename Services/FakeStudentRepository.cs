@@ -60,7 +60,6 @@ namespace CrudOperation.Services
         {
             if(student != null)
             {
-                Students[student.Id].Id = student.Id;
                 Students[student.Id].Name = student.Name;
                 Students[student.Id].Email = student.Email;
                 Students[student.Id].Image = student.Image;
